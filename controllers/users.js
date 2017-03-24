@@ -31,9 +31,13 @@ router.get('/', function(req, res){
 				if(!!error){
 					console.log('Error in the query');
 					console.log(error)
+					return res.status(400).json({
+							message: "Valori non trovati",
+							error: true
+						})
 				}else{
 					if(rows.length == 0){
-						return res.json({
+						return res.status(401).json({
 							message: "Valori non trovati",
 							error: true
 						})
@@ -65,13 +69,13 @@ router.get('/:userId', function(req, res){
 				if(!!error){
 					console.log('Error in the query');
 					console.log(error);
-					return res.json({
+					return res.status(400).json({
 							message: "Valori non trovati",
 							error: true
 						})
 				}else{
 					if(rows.length == 0){
-						return res.json({
+						return res.status(401).json({
 							message: "Valori non trovati",
 							error: true
 						})
@@ -118,9 +122,13 @@ router.post('/add', function(req, res){
 								if(!!error){
 									console.log('Error in the query');
 									console.log(error);
+									return res.status(400).json({
+										message: "Valori non trovati",
+										error: true
+									})
 								}else{
 									if(rows.length == 0){
-										return res.json({
+										return res.status(401).json({
 											message: "Utente non trovato",
 											error: true
 										})

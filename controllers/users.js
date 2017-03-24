@@ -14,17 +14,17 @@ var connection = mysql.createPool({
 var tableName = 'mySampleTable';
 
 router.get('/', function(req, res){
-	connection.getConnection(function(error, tempCont){
+	connection.getConnection(function(error, tempcont){
 		if(!!error){
-			tempCont.release();
+			tempcont.release();
 			console.log('Error');
 		}else{
 			console.log('Connected');
 			var query = "SELECT * FROM " + tableName;
 
-			tempCont.query(query, function(error, rows, fields){
+			tempcont.query(query, function(error, rows, fields){
 
-				tempCont.release();
+				tempcont.release();
 
 				if(!!error){
 					console.log('Error in the query');
@@ -47,14 +47,14 @@ router.get('/', function(req, res){
 });
 
 router.get('/:userId', function(req, res){
-	connection.getConnection(function(error, tempCont){
+	connection.getConnection(function(error, tempcont){
 		if(!!error){
-			tempCont.release();
+			tempcont.release();
 			console.log('Error');
 		}else{
 			console.log('Connected');
-			tempCont.query("SELECT * FROM " + tableName +" WHERE ID = " + parseInt(req.params.userId, 10), function(error, rows, fields){
-				tempCont.release();
+			tempcont.query("SELECT * FROM " + tableName +" WHERE ID = " + parseInt(req.params.userId, 10), function(error, rows, fields){
+				tempcont.release();
 				
 				if(!!error){
 					console.log('Error in the query');

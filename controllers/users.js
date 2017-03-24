@@ -14,7 +14,8 @@ var connection = mysql.createPool({
 var tableName = 'mySampleTable';
 
 router.get('/', function(req, res){
-	connection.getConnection(function(error, tempcont){
+	try{
+		connection.getConnection(function(error, tempcont){
 		if(error){
 			//tempcont.release();
 			console.log('Error');
@@ -45,10 +46,16 @@ router.get('/', function(req, res){
 			})
 		}
 	});
+	}catch(e){
+		console.log("ERROR");
+		console.log(e);
+	}
+	
 });
 
 router.get('/:userId', function(req, res){
-	connection.getConnection(function(error, tempcont){
+	try{
+		connection.getConnection(function(error, tempcont){
 		if(error){
 			//tempcont.release();
 			console.log('Error');
@@ -76,6 +83,11 @@ router.get('/:userId', function(req, res){
 			})
 		}
 	});
+	}catch(e){
+		console.log('Error');
+		console.log(e);
+	}
+	
 
 });
 

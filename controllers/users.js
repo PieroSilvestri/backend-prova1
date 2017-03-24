@@ -14,7 +14,7 @@ var connection = mysql.createPool({
 var tableName = 'mySampleTable';
 
 router.get('/', function(req, res){
-	try{
+
 		connection.getConnection(function(error, tempcont){
 		if(error){
 			//tempcont.release();
@@ -46,15 +46,12 @@ router.get('/', function(req, res){
 			})
 		}
 	});
-	}catch(e){
-		console.log("ERROR");
-		console.log(e);
-	}
+
 	
 });
 
 router.get('/:userId', function(req, res){
-	try{
+	
 		connection.getConnection(function(error, tempcont){
 		if(error){
 			//tempcont.release();
@@ -83,12 +80,44 @@ router.get('/:userId', function(req, res){
 			})
 		}
 	});
-	}catch(e){
-		console.log('Error');
-		console.log(e);
-	}
-	
+});
 
+
+router.post('/users', function(req, res){
+
+	if(!req.body.name){
+		return res.json({
+			message: 'Missing user name.',
+			error: true
+		});
+	}
+
+	connection.getConnection(function(error, tempCont){
+		if(!!error){
+			tempCont.release();
+			console.log('Error');
+		}else{
+			console.log('Connected');
+			tempCont.query("INSERT INTO " + tableName + " (NAME) VALUES ("+ req.body.name + ");", 
+							function(error, rows, fields){
+								tempCont.release();
+								if(!!error){
+									console.log('Error in the query');
+								}else{
+									if(rows.length == 0){
+										return res.json({
+											message: "Utente non trovato",
+											error: true
+										})
+									}
+									res.status(200).json({
+										success: true,
+										body: rows
+										});
+								}
+			})
+		}
+	});
 });
 
 

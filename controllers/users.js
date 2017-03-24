@@ -15,9 +15,10 @@ var tableName = 'mySampleTable';
 
 router.get('/', function(req, res){
 	connection.getConnection(function(error, tempcont){
-		if(!!error){
+		if(error){
 			//tempcont.release();
 			console.log('Error');
+			console.log(error);
 		}else{
 			console.log('Connected');
 			var query = "SELECT * FROM " + tableName;
@@ -48,9 +49,10 @@ router.get('/', function(req, res){
 
 router.get('/:userId', function(req, res){
 	connection.getConnection(function(error, tempcont){
-		if(!!error){
+		if(error){
 			//tempcont.release();
 			console.log('Error');
+			console.log(error);
 		}else{
 			console.log('Connected');
 			tempcont.query("SELECT * FROM " + tableName +" WHERE ID = " + parseInt(req.params.userId, 10), function(error, rows, fields){

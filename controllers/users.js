@@ -83,7 +83,7 @@ router.get('/:userId', function(req, res){
 });
 
 
-router.post('/users', function(req, res){
+router.post('/add', function(req, res){
 
 	if(!req.body.name){
 		return res.json({
@@ -103,6 +103,7 @@ router.post('/users', function(req, res){
 								tempCont.release();
 								if(!!error){
 									console.log('Error in the query');
+									console.log(error);
 								}else{
 									if(rows.length == 0){
 										return res.json({

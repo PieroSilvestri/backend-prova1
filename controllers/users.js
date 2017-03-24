@@ -64,7 +64,11 @@ router.get('/:userId', function(req, res){
 				
 				if(!!error){
 					console.log('Error in the query');
-					console.log(error)
+					console.log(error);
+					return res.json({
+							message: "Valori non trovati",
+							error: true
+						})
 				}else{
 					if(rows.length == 0){
 						return res.json({
@@ -82,7 +86,13 @@ router.get('/:userId', function(req, res){
 	});
 });
 
+/*
+METHOD POST
+{
+	"name": "NUOVO_NOME"
+}
 
+*/
 router.post('/add', function(req, res){
 
 	if(!req.body.name){

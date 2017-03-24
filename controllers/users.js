@@ -16,7 +16,7 @@ var tableName = 'mySampleTable';
 router.get('/', function(req, res){
 	connection.getConnection(function(error, tempcont){
 		if(!!error){
-			tempcont.release();
+			//tempcont.release();
 			console.log('Error');
 		}else{
 			console.log('Connected');
@@ -49,7 +49,7 @@ router.get('/', function(req, res){
 router.get('/:userId', function(req, res){
 	connection.getConnection(function(error, tempcont){
 		if(!!error){
-			tempcont.release();
+			//tempcont.release();
 			console.log('Error');
 		}else{
 			console.log('Connected');

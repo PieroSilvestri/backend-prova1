@@ -90,17 +90,21 @@ router.post('/add', function(req, res){
 			message: 'Missing user name.',
 			error: true
 		});
+	}else{
+		console.log("Name: " + req.body.name);
 	}
 
-	connection.getConnection(function(error, tempCont){
+	connection.getConnection(function(error, tempcont){
 		if(!!error){
-			tempCont.release();
+			t//empcont.release();
 			console.log('Error');
 		}else{
 			console.log('Connected');
-			tempCont.query("INSERT INTO " + tableName + " (NAME) VALUES ("+ req.body.name + ");", 
-							function(error, rows, fields){
-								tempCont.release();
+
+			var query = "INSERT INTO  `mjhnxzbg_test1`.`mySampleTable` (`ID` ,`NAME`) VALUES (NULL ,  '"+ req.body.name+"');"
+
+			tempcont.query(query, function(error, rows, fields){
+								tempcont.release();
 								if(!!error){
 									console.log('Error in the query');
 									console.log(error);

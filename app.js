@@ -16,6 +16,6 @@ app.use(function(req, res, next){
 
 app.use(require('./controllers'));
 
-app.listen('1337', function(){
+app.listen(app.get('port'), function(){
 	console.log('server is running')
 });

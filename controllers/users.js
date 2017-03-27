@@ -8,10 +8,10 @@ var connection = mysql.createPool({
 	port: '3306',
 	user: 'mjhnxzbg_test',
 	password: '@Password1.',
-	database: 'mjhnxzbg_test1'
+	database: 'mjhnxzbg_imageRecognizer_v1'
 });
 
-var tableName = 'mySampleTable';
+var tableName = 'Users';
 
 router.get('/', function(req, res){
 
@@ -20,6 +20,10 @@ router.get('/', function(req, res){
 			//tempcont.release();
 			console.log('Error');
 			console.log(error);
+			return res.status(400).json({
+							success: false,
+							message: "Connessione errata."
+						})
 		}else{
 			console.log('Connected!');
 			var query = "SELECT * FROM " + tableName;
@@ -32,14 +36,14 @@ router.get('/', function(req, res){
 					console.log('Error in the query');
 					console.log(error)
 					return res.status(400).json({
-							message: "Valori non trovati",
-							error: true
+							success: false,
+							message: "Valori non trovati."
 						})
 				}else{
 					if(rows.length == 0){
 						return res.status(401).json({
-							message: "Valori non trovati",
-							error: true
+							success: false,
+							message: "Valori non trovati."
 						})
 					}
 					res.status(200).json({
@@ -61,6 +65,10 @@ router.get('/:userId', function(req, res){
 			//tempcont.release();
 			console.log('Error');
 			console.log(error);
+			return res.status(400).json({
+							success: false,
+							message: "Connessione errata."
+						})
 		}else{
 			console.log('Connected');
 			tempcont.query("SELECT * FROM " + tableName +" WHERE ID = " + parseInt(req.params.userId, 10), function(error, rows, fields){
@@ -70,14 +78,14 @@ router.get('/:userId', function(req, res){
 					console.log('Error in the query');
 					console.log(error);
 					return res.status(400).json({
-							message: "Valori non trovati",
-							error: true
+							success: false,
+							message: "Valori non trovati."
 						})
 				}else{
 					if(rows.length == 0){
 						return res.status(401).json({
-							message: "Valori non trovati",
-							error: true
+							success: false,
+							message: "Valori non trovati."
 						})
 					}
 					res.status(200).json({
@@ -93,29 +101,40 @@ router.get('/:userId', function(req, res){
 /*
 METHOD POST
 {
-	"name": "NUOVO_NOME"
+	"Name": "Valerio",
+  	"Surname": "Fanconi",
+  	"Role": "Fisioterapista",
+  	"Birthday": "1934-03-14",
+  	"Email": "franco@giuliani.it",
+  	"DataRegistration": "3/27/2017 2:15:47 PM",
+  	"Password": "test"
 }
-
 */
+
 router.post('/add', function(req, res){
 
-	if(!req.body.name){
-		return res.json({
-			message: 'Missing user name.',
-			error: true
+	//TODO AGE
+
+	if(!req.body.Name || !req.body.Surname || !req.body.Role || !req.body.Birthday || !req.body.Email || !req.body.DataRegistration || !req.body.Password ){
+		return res.status(400).json({
+			message: 'Missing some fields.',
+			success: false
 		});
-	}else{
-		console.log("Name: " + req.body.name);
 	}
 
 	connection.getConnection(function(error, tempcont){
 		if(!!error){
-			t//empcont.release();
+			//empcont.release();
 			console.log('Error');
 		}else{
 			console.log('Connected');
 
-			var query = "INSERT INTO  `mjhnxzbg_test1`.`mySampleTable` (`ID` ,`NAME`) VALUES (NULL ,  '"+ req.body.name+"');"
+			var query = "INSERT INTO " + tableName + " (ID, LastName, FirstName, UserName, Password, Age, DataRegistration, Birthday, Role, Email) "
+			+"VALUES (NULL , '"+req.body.Surname+"', '"
+				+req.body.Name+"', '"+req.body.Name + req.body.Surname+"', '"
+				+req.body.Password+"', 23, '"
+				+req.body.DataRegistration+"', '"+req.body.Birthday+"', '"
+				+req.body.Role+"', '"+req.body.Email+"');"
 
 			tempcont.query(query, function(error, rows, fields){
 								tempcont.release();
@@ -123,14 +142,14 @@ router.post('/add', function(req, res){
 									console.log('Error in the query');
 									console.log(error);
 									return res.status(400).json({
-										message: "Valori non trovati",
-										error: true
+										success: false,
+										message: "Valori non trovati."
 									})
 								}else{
 									if(rows.length == 0){
 										return res.status(401).json({
-											message: "Utente non trovato",
-											error: true
+											success: false,
+											message: "Valori non trovati."
 										})
 									}
 									res.status(200).json({

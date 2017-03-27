@@ -26,7 +26,8 @@ router.get('/', function(req, res){
 						})
 		}else{
 			console.log('Connected!');
-			var query = "SELECT * FROM " + tableName;
+			var query = "SELECT ID, LastName, FirstName, UserName, Age, DataRegistration, Birthday, Role, Email "+
+				" FROM " + tableName;
 
 			tempcont.query(query, function(error, rows, fields){
 
@@ -71,7 +72,11 @@ router.get('/:userId', function(req, res){
 						})
 		}else{
 			console.log('Connected');
-			tempcont.query("SELECT * FROM " + tableName +" WHERE ID = " + parseInt(req.params.userId, 10), function(error, rows, fields){
+
+			var query = "SELECT ID, LastName, FirstName, UserName, Age, DataRegistration, Birthday, Role, Email "+
+				" FROM " + tableName +" WHERE ID = " + parseInt(req.params.userId, 10);
+
+			tempcont.query(query, function(error, rows, fields){
 				tempcont.release();
 				
 				if(!!error){
@@ -112,7 +117,6 @@ METHOD POST
 */
 
 router.post('/add', function(req, res){
-
 	//TODO AGE
 
 	if(!req.body.Name || !req.body.Surname || !req.body.Role || !req.body.Birthday || !req.body.Email || !req.body.DataRegistration || !req.body.Password ){

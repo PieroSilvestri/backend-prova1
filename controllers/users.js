@@ -21,7 +21,7 @@ router.get('/', function(req, res){
 			console.log('Error');
 			console.log(error);
 		}else{
-			console.log('Connected');
+			console.log('Connected!');
 			var query = "SELECT * FROM " + tableName;
 
 			tempcont.query(query, function(error, rows, fields){

@@ -206,7 +206,7 @@ router.post('/add/images', function(req, res){
 										})
 									}else{
 										tempcont.query(query2, function(error2, rows2, fields2){
-											tempcont.release();
+											//tempcont.release();
 											if(!!error2){
 												console.log('Error in the query');
 												console.log(error2);

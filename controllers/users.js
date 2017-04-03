@@ -166,6 +166,77 @@ router.post('/add', function(req, res){
 	});
 });
 
+router.post('/add/images', function(req, res){
+	//TODO AGE
+	tableName = "Images";
+	if(!req.body.ID || !req.body.faceId_1 || !req.body.faceId_2){
+		return res.status(400).json({
+			message: 'Missing some fields.',
+			success: false
+		});
+	}
+
+	connection.getConnection(function(error, tempcont){
+		if(!!error){
+			//empcont.release();
+			console.log('Error');
+		}else{
+			console.log('Connected');
+
+			var query = "INSERT INTO " + tableName + " (ID_User, PersistedFaceId) "
+			+"VALUES ('"+parseInt(req.body.ID, 10)+"', '"+req.body.faceId_1+"');";
+
+			var query2 = "INSERT INTO " + tableName + " (ID_User, PersistedFaceId) "
+			+"VALUES ('"+parseInt(req.body.ID, 10)+"', '"+req.body.faceId_2+"');";
+
+			tempcont.query(query, function(error1, rows1, fields){
+								tempcont.release();
+								if(!!error1){
+									console.log('Error in the query');
+									console.log(error1);
+									return res.status(400).json({
+										success: false,
+										message: "Valori non trovati query1."
+									})
+								}else{
+									if(rows1.length == 0){
+										return res.status(401).json({
+											success: false,
+											message: "Valori non trovati query1."
+										})
+									}else{
+										tempcont.query(query2, function(error2, rows2, fields2){
+											tempcont.release();
+											if(!!error2){
+												console.log('Error in the query');
+												console.log(error2);
+												return res.status(400).json({
+													success: false,
+													message: "Valori non trovati query2."
+												})
+											}else{
+												if(rows2.length == 0){
+													return res.status(401).json({
+														success: false,
+														message: "Valori non trovati query2."
+													})
+												}
+												res.status(200).json({
+													success: true,
+													body: {
+														rows1: rows1,
+														rows2: rows2
+													}
+													});
+											}
+										})
+									}
+								}
+			})
+		}
+	});
+});
+
 
 
 module.exports = router;

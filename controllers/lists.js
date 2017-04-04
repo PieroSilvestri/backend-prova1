@@ -97,4 +97,50 @@ router.get('/user/:userId', function(req, res){
 	});
 });
 
+router.post('/add', function(req, res){
+	//TODO AGE
+
+	if(!req.body.User_id || !req.body.Name || !req.body.DataCreation){
+		return res.status(400).json({
+			message: 'Missing some fields.',
+			success: false
+		});
+	}
+
+	connection.getConnection(function(error, tempcont){
+		if(!!error){
+			//empcont.release();
+			console.log('Error');
+		}else{
+			console.log('Connected');
+
+			var query = "INSERT INTO " + tableName + " (ID_User, Name, DataCreation) "
+			+"VALUES ( "+ parseInt(req.body.User_id, 10)+", '"+req.body.Name+"', '"+req.body.DataCreation+"');"
+
+			tempcont.query(query, function(error, rows, fields){
+								tempcont.release();
+								if(!!error){
+									console.log('Error in the query');
+									console.log(error);
+									return res.status(400).json({
+										success: false,
+										message: "Valori non trovati."
+									})
+								}else{
+									if(rows.length == 0){
+										return res.status(401).json({
+											success: false,
+											message: "Valori non trovati."
+										})
+									}
+									res.status(200).json({
+										success: true,
+										body: rows
+										});
+								}
+			})
+		}
+	});
+});
+
 module.exports = router;

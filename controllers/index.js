@@ -4,5 +4,7 @@ var express = require('express')
 var path = "/api/v1";
 
 router.use(path + '/users', require('./users'));
+router.use(path + '/reports', require('./reports'));
+
   
 module.exports = router;

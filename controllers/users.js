@@ -206,7 +206,7 @@ router.post('/add/images', function(req, res){
 										})
 									}else{
 										tempcont.query(query2, function(error2, rows2, fields2){
-											tempcont.release();
+											//tempcont.release();
 											if(!!error2){
 												console.log('Error in the query');
 												console.log(error2);
@@ -238,51 +238,7 @@ router.post('/add/images', function(req, res){
 });
 
 // Login
-router.post('/login', function(req, res){
-	//TODO AGE
 
-	if(!req.body.faceId){
-		return res.status(400).json({
-			message: 'Missing some fields.',
-			success: false
-		});
-	}
-
-	connection.getConnection(function(error, tempcont){
-		if(!!error){
-			//empcont.release();
-			console.log('Error');
-		}else{
-			console.log('Connected');
-
-			var query = "SELECT Users.ID, LastName, FirstName, UserName, Age, DataRegistration, Birthday, Role, Email " 
-				+ "FROM Users LEFT JOIN Images ON Users.ID = Images.ID_User WHERE Images.PersistedFaceId = '"+req.body.faceId+"';";
-
-			tempcont.query(query, function(error, rows, fields){
-								tempcont.release();
-								if(!!error){
-									console.log('Error in the query');
-									console.log(error);
-									return res.status(400).json({
-										success: false,
-										message: "Valori non trovati."
-									})
-								}else{
-									if(rows.length == 0){
-										return res.status(401).json({
-											success: false,
-											message: "Valori non trovati."
-										})
-									}
-									res.status(200).json({
-										success: true,
-										body: rows
-										});
-								}
-			})
-		}
-	});
-});
 
 
 

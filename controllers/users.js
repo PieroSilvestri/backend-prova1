@@ -26,8 +26,8 @@ router.get('/', function(req, res){
 						})
 		}else{
 			console.log('Connected!');
-			var query = "SELECT ID, LastName, FirstName, UserName, Age, DataRegistration, Birthday, Role, Email "+
-				" FROM " + tableName;
+			var query = "SELECT Users.ID, Users.LastName, Users.FirstName, Users.UserName, Users.Age, "
+			+"Users.DataRegistration, Users.Birthday, Users.Role, Users.Email FROM Users";
 
 			tempcont.query(query, function(error, rows, fields){
 

@@ -84,23 +84,28 @@ router.post('/add', function(req, res){
 
 			tempcont.release();
 
-			var righe = rows;
+			var righe = [];
+			console.log("Lunghezza: " + faces.length);
 
 			async.forEachOfSeries(faces, function(face, i, callback){
 
-				var query = "INSERT INTO " + tableName + " (Gender, Age, Anger_value, Contempt_valiue, Disgust_value, Fear_value, Happiness_value, "
+				var query = "INSERT INTO " + tableName + " (Gender, Age, Anger_value, Contempt_value, Disgust_value, Fear_value, Happiness_value, "
 				+"Neutral_value, Sadness_value, Surprise_value, ID_User, ID_List, Emotion, DateCreate) "
 				+"VALUES ('"+face.gender+"', "+face.age+", "
 				+parseFloat(emotions[i].anger)+", "+parseFloat(emotions[i].contempt)+", "+parseFloat(emotions[i].disgust)+", "+parseFloat(emotions[i].fear)+", "+parseFloat(emotions[i].happiness)+", "
 				+parseFloat(emotions[i].neutral)+", "+parseFloat(emotions[i].sadness)+", "+parseFloat(emotions[i].surprise)+", "
 				+parseInt(id_user, 10)+", "+parseInt(id_list, 10)+", '"+emotion+"', '"+dateCreated+"');";
 
-					tempCont.query(query, function(error, rows, fields){
+
+				console.log("FACES:");
+				console.log(face);
+
+					tempcont.query(query, function(error, rows, fields){
 						if(!!error){
 							console.log("Error in the queryTags");
 							console.log(error)
 						}else{
-							if(rows1.length == 0){
+							if(rows.length == 0){
 								body = (righe[i]);
 								tags = 0;
 							}else{
@@ -126,4 +131,4 @@ router.post('/add', function(req, res){
 	});
 });
 
-	module.exports = router;
+module.exports = router;

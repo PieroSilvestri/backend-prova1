@@ -255,7 +255,7 @@ router.post('/login', function(req, res){
 		}else{
 			console.log('Connected');
 
-			var query = "SELECT ID, LastName, FirstName, UserName, Age, DataRegistration, Birthday, Role, Email " 
+			var query = "SELECT Users.ID, LastName, FirstName, UserName, Age, DataRegistration, Birthday, Role, Email " 
 				+ "FROM Users LEFT JOIN Images ON Users.ID = Images.ID_User WHERE Images.PersistedFaceId = '"+req.body.faceId+"';";
 
 			tempcont.query(query, function(error, rows, fields){
